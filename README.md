@@ -1,6 +1,6 @@
 # ZF 2-for-1
 
-Version 0.0.l Created by [Evan Coury](http://blog.evan.pro/)
+Version 0.0.1 Created by [Evan Coury](http://blog.evan.pro/)
 
 ## Introduction
 
