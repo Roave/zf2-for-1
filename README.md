@@ -4,7 +4,7 @@ Version 0.0.1 Created by [Evan Coury](http://blog.evan.pro/)
 
 ## Introduction
 
-ZF 2-for-1 provides a compatibility layer for Zend Framework 1, allowing you to use Zend Framework 2 features in your ZF1 application. For example, if you to upgrade from the old Zend\_From to ZF2's Zend\\Form, but can't afford to refactor your entire application for ZF2, **this is for you**. This works by registering a Zend\_Application resource, thus it requires Zend Framework 1.8 or later. At the moment it's only been tested with 1.12.1.
+ZF 2-for-1 provides a compatibility layer for Zend Framework 1, allowing you to use Zend Framework 2 features in your ZF1 application. For example, if you want to upgrade from the old Zend\_From to ZF2's Zend\\Form, but can't afford to refactor your entire application for ZF2, **this is for you**. This works by registering a Zend\_Application resource, thus it requires Zend Framework 1.8 or later. At the moment it's only been tested with 1.12.1.
 
 Enjoy responsibly.
 
