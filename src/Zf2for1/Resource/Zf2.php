@@ -7,9 +7,12 @@
 * @license New BSD License
 */
 
+
 class Zf2for1_Resource_Zf2
     extends Zend_Application_Resource_ResourceAbstract
 {
+    protected $app;
+
     public function init()
     {
         $options = $this->getOptions();
@@ -21,12 +24,21 @@ class Zf2for1_Resource_Zf2
             )
         ));
 
-        $app = \Zend\Mvc\Application::init(require $options['configPath'] . '/application.config.php');
-        $serviceManager = $app->getServiceManager();
+        $this->app = \Zend\Mvc\Application::init(require $options['configPath'] . '/application.config.php');
+        if (
+            isset($this->_options['sm_add_to_registry'])
+            && $this->_options['sm_add_to_registry'] == true
+        ) {
+            $serviceManager = $this->app->getServiceManager();
+            $registry = Zend_Registry::getInstance();
+            $registry->set('service_manager', $service_manager);
 
-        $bootstrap = $this->getBootstrap();
-        $bootstrap->bootstrap('view');
-        $view = $bootstrap->getResource('view');
-        $view->zf2 = $serviceManager->get('ViewHelperManager');
+        }
+
+    }
+
+    public function getServiceManager()
+    {
+        return $this->app->getServiceManager();
     }
 }
