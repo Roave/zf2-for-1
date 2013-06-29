@@ -6,7 +6,7 @@
 * @copyright Copyright (c) 2005-2012 Evan Coury (http://blog.evan.pro/)
 * @license New BSD License
 */
-
+use Zend\StdLib\ArrayUtils;
 
 class Zf2for1_Resource_Zf2
     extends Zend_Application_Resource_ResourceAbstract
@@ -24,7 +24,28 @@ class Zf2for1_Resource_Zf2
             )
         ));
 
-        $this->app = \Zend\Mvc\Application::init(require $options['configPath'] . '/application.config.php');
+        //whole zf1 application config
+        $zf1Config = $this->getBootstrap()->getApplication()->getOptions();
+
+        $appConfig = ArrayUtils::merge(
+            // get zf2 application config
+            require $options['configPath'] . '/application.config.php',
+            //register zf1 config with service manager
+            array(
+                'module_listener_options' => array(
+                    'extra_config' => array(
+                        'service_manager' => array(
+                            'service' => array(
+                                'zf1_config' => $zf1Config
+                            )
+                        )
+                    )
+                )
+            )
+        );
+
+
+        $this->app = \Zend\Mvc\Application::init($appConfig);
         if (
             isset($this->_options['sm_add_to_registry'])
             && $this->_options['sm_add_to_registry'] == true
