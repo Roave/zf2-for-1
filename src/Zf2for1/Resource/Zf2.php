@@ -52,7 +52,7 @@ class Zf2for1_Resource_Zf2
         ) {
             $serviceManager = $this->app->getServiceManager();
             $registry = Zend_Registry::getInstance();
-            $registry->set('service_manager', $service_manager);
+            $registry->set('service_manager', $serviceManager);
 
         }
 
