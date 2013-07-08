@@ -3,6 +3,7 @@
 namespace Zf2for1\View\Helper;
 
 use Zend\View\HelperPluginManager;
+use Zend_View_Helper_Abstract;
 
 class Zf2Helper extends Zend_View_Helper_Abstract
 {
