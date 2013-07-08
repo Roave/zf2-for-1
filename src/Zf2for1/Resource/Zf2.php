@@ -5,7 +5,9 @@
 * @link https://github.com/EvanDotPro/zf-2-for-1 for the canonical source repository
 * @copyright Copyright (c) 2005-2012 Evan Coury (http://blog.evan.pro/)
 * @license New BSD License
-*/
+ */
+use Zend\Loader\AutoloaderFactory;
+use Zend\Mvc\Application;
 use Zend\StdLib\ArrayUtils;
 
 class Zf2for1_Resource_Zf2
@@ -17,8 +19,8 @@ class Zf2for1_Resource_Zf2
     {
         $options = $this->getOptions();
 
-        include $options['zf2Path'] . '/Zend/Loader/AutoloaderFactory.php';
-        \Zend\Loader\AutoloaderFactory::factory(array(
+        include_once $options['zf2Path'] . '/Zend/Loader/AutoloaderFactory.php';
+        AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf' => true
             )
@@ -45,7 +47,7 @@ class Zf2for1_Resource_Zf2
         );
 
 
-        $this->app = \Zend\Mvc\Application::init($appConfig);
+        $this->app = Application::init($appConfig);
         if (
             isset($this->_options['sm_add_to_registry'])
             && $this->_options['sm_add_to_registry'] == true

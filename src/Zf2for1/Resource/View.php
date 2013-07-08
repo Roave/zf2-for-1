@@ -7,7 +7,7 @@
 * @license New BSD License
 */
 
-use  Zf2for1\View\Helper as ViewHelper;
+use  Zf2for1\View\Helper\Zf2Helper;
 
 class Zf2for1_Resource_View
     extends Zend_Application_Resource_View
@@ -19,7 +19,7 @@ class Zf2for1_Resource_View
         $serviceManager = $bootstrap->getResource('zf2')->getServiceManager();
 
         //register zf1 helper to grant access to zf2 view helpers
-        $zf2Helper = new ViewHelper\Zf2Helper($serviceManager->get('ViewHelperManager'));
+        $zf2Helper = new Zf2Helper($serviceManager->get('ViewHelperManager'));
         $view = $this->getView();
         $view->registerHelper($zf2Helper, 'zf2Helper');
 
