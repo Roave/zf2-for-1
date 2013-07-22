@@ -37,7 +37,7 @@ autoloaderNamespaces[]           = "Zf2for1\\"
 pluginPaths.Zf2for1_Resource     = "Zf2for1/Resource"
 resources.zf2.zf2Path            = APPLICATION_PATH "/zf2/vendor"
 resources.zf2.configPath         = APPLICATION_PATH "/zf2/config"
-resources.zf2.sm_add_to_registry = true
+resources.zf2.add_sm_to_registry = true
 resources.view[] =
 ```
 

@@ -49,8 +49,8 @@ class Zf2for1_Resource_Zf2
 
         $this->app = Application::init($appConfig);
         if (
-            isset($this->_options['sm_add_to_registry'])
-            && $this->_options['sm_add_to_registry'] == true
+            isset($this->_options['add_sm_to_registry'])
+            && $this->_options['add_sm_to_registry'] == true
         ) {
             $serviceManager = $this->app->getServiceManager();
             $registry = Zend_Registry::getInstance();
