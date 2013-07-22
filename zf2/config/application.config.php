@@ -4,11 +4,12 @@ return array(
     ),
     'module_listener_options' => array(
         'config_glob_paths'    => array(
-            APPLICATION_PATH . '/zf2/config/autoload/{,*.}{global,local}.php',
+            dirname(__FILE__) . '/autoload/{,*.}{global,local}.php',
         ),
+        // paths are relative to this file: ../module and ../vendor
         'module_paths' => array(
-            APPLICATION_PATH . '/zf2/module',
-            APPLICATION_PATH . '/zf2/vendor',
+            dirname(dirname(__FILE__)) . '/module',
+            dirname(dirname(__FILE__)) . '/vendor',
         ),
     ),
 );
