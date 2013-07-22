@@ -37,7 +37,7 @@ class Zf2for1_Resource_Zf2
                 'module_listener_options' => array(
                     'extra_config' => array(
                         'service_manager' => array(
-                            'service' => array(
+                            'services' => array(
                                 'zf1_config' => $zf1Config
                             )
                         )
