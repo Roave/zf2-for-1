@@ -1,6 +1,6 @@
 # ZF 2-for-1
 
-Version 0.0.1 Created by [Evan Coury](http://blog.evan.pro/) and [Aleksey Khudyakov](https://github.com/Xerkus/).
+Version 0.0.1 Created by [Evan Coury](http://blog.evan.pro/) and [Xerkus](https://github.com/Xerkus/).
 
 ## Introduction
 
