@@ -29,7 +29,7 @@ This process should be simplified, but for now here's how you can get it working
 * Copy the `zf2/` directory into your application's APPLICATION\_PATH (usually `./application/`).
 * Download ZF2 and put the `Zend/` directory in `APPLICATION_PATH/zf2/vendor`
 
-Add this to your `application.config.php`:
+Add this to your `application.ini`:
 
 ```ini
 autoloaderNamespaces[]           = "Zf2for1_"
