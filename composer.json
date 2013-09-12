@@ -1,0 +1,35 @@
+{
+    "name": "roave/zf2-for-1",
+    "description": "Compatibility layer for ZF1 application allowing usage of ZF2 features",
+    "type": "library",
+    "keywords": [
+        "zf2",
+        "zf1",
+        "compatibility"
+    ],
+    "homepage": "https://github.com/Roave/zf2-for-1",
+    "authors": [
+        {
+            "name": "Evan Coury",
+            "email": "me@evancoury.com",
+            "homepage": "http://blog.evan.pro/"
+        },
+        {
+            "name": "Aleksey Khudyakov",
+            "email": "aleksey@xerkus.pro",
+            "homepage": "http://me.xerkus.pro/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": ">2.2.0"
+    },
+    "require-dev": {
+        "zendframework/zendframework1": ">1.12.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Zf2for1": "src/"
+        }
+    }
+}
