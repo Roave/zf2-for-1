@@ -2,8 +2,8 @@
 /**
 * ZF 2-for-1
 *
-* @link https://github.com/EvanDotPro/zf-2-for-1 for the canonical source repository
-* @copyright Copyright (c) 2005-2012 Evan Coury (http://blog.evan.pro/)
+* @link https://github.com/Roave/zf2-for-1 for the canonical source repository
+* @copyright Copyright (c) 2005-2013 Evan Coury (http://blog.evan.pro/)
 * @license New BSD License
 */
 
