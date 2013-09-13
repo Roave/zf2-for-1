@@ -17,27 +17,24 @@ class Zf2for1_Resource_Zf2
 
     public function init()
     {
+        $this->registerZf2Autoloader();
+
         $options = $this->getOptions();
-
-        if (empty($options['zf2Path'])) {
-            throw new DomainException('Option "zf2Path" was not provided');
-        }
-
-        include_once $options['zf2Path'] . '/Zend/Loader/AutoloaderFactory.php';
-        AutoloaderFactory::factory(array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'autoregister_zf' => true
-            )
-        ));
+        $configPath = isset($options['configPath'])
+            ? $options['configPath']
+            : dirname(APPLICATION_PATH) . '/config';
 
         //whole zf1 application config
         $zf1Config = $this->getBootstrap()->getApplication()->getOptions();
 
         $appConfig = ArrayUtils::merge(
             // get zf2 application config
-            require $options['configPath'] . '/application.config.php',
+            require $configPath . '/application.config.php',
             //register zf1 config with service manager
             array(
+                'modules' => array(
+                    'Zf2for1'
+                ),
                 'module_listener_options' => array(
                     'extra_config' => array(
                         'service_manager' => array(
@@ -50,18 +47,35 @@ class Zf2for1_Resource_Zf2
             )
         );
 
-
         $this->app = Application::init($appConfig);
         if (
-            isset($this->_options['add_sm_to_registry'])
-            && $this->_options['add_sm_to_registry'] == true
+            isset($options['add_sm_to_registry'])
+            && $options['add_sm_to_registry'] == true
         ) {
             $serviceManager = $this->getServiceManager();
             $registry = Zend_Registry::getInstance();
             $registry->set('service_manager', $serviceManager);
-
         }
         return $this;
+    }
+
+    protected function registerZf2Autoloader()
+    {
+        $options = $this->getOptions();
+
+        if (!empty($options['zf2Path'])) {
+            include_once $options['zf2Path'] . '/Zend/Loader/AutoloaderFactory.php';
+        }
+
+        if (!class_exists('Zend\\Loader\\AutoloaderFactory', true)) {
+            throw new DomainException('Option "zf2Path" was not provided');
+        }
+
+        AutoloaderFactory::factory(array(
+            'Zend\Loader\StandardAutoloader' => array(
+                'autoregister_zf' => true
+            )
+        ));
     }
 
     public function getServiceManager()
