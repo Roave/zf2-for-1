@@ -19,6 +19,10 @@ class Zf2for1_Resource_Zf2
     {
         $options = $this->getOptions();
 
+        if (empty($options['zf2Path'])) {
+            throw new DomainException('Option "zf2Path" was not provided');
+        }
+
         include_once $options['zf2Path'] . '/Zend/Loader/AutoloaderFactory.php';
         AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
