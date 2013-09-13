@@ -52,12 +52,12 @@ class Zf2for1_Resource_Zf2
             isset($this->_options['add_sm_to_registry'])
             && $this->_options['add_sm_to_registry'] == true
         ) {
-            $serviceManager = $this->app->getServiceManager();
+            $serviceManager = $this->getServiceManager();
             $registry = Zend_Registry::getInstance();
             $registry->set('service_manager', $serviceManager);
 
         }
-
+        return $this;
     }
 
     public function getServiceManager()
