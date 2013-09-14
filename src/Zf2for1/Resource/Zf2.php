@@ -9,7 +9,7 @@
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Application;
-use Zend\StdLib\ArrayUtils;
+use Zend\Stdlib\ArrayUtils;
 
 class Zf2for1_Resource_Zf2
     extends Zend_Application_Resource_ResourceAbstract
