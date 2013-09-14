@@ -1,0 +1,14 @@
+<?php
+
+return array(
+    'modules' => array(
+        'Zf2for1',
+    ),
+    'module_listener_options' => array(
+        'extra_config' => array(
+        ),
+        'module_paths' => array(
+            'vendor',
+        ),
+    ),
+);
