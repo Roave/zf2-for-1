@@ -40,7 +40,8 @@ class Zf2for1_Resource_Zf2
                     'extra_config' => array(
                         'service_manager' => array(
                             'services' => array(
-                                'zf1_config' => $zf1Config
+                                'zf1_config'    => $zf1Config,
+                                'zf1_bootstrap' => $this->getBootstrap(),
                             )
                         )
                     )
