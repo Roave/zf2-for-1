@@ -38,9 +38,9 @@ class Zf2for1_Resource_Zf2
                 ),
                 'module_listener_options' => array(
                     'extra_config' => array(
+                        'zf1' => $zf1Config,
                         'service_manager' => array(
                             'services' => array(
-                                'zf1_config'    => $zf1Config,
                                 'zf1_bootstrap' => $this->getBootstrap(),
                             )
                         )
