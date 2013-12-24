@@ -15,10 +15,12 @@ class Frontcontroller implements FactoryInterface
         $em = $serviceLocator->get('EventManager');
         $em->trigger(static::ZF1_RESOURCE_FRONTCONTROLLER);
 
-        $config = $serviceLocator->get('zf1_config');
-        $config = isset($config['resources']['frontcontroller'])
-            ? $config['resources']['frontcontroller']
+        $config = $serviceLocator->get('config');
+        // @todo extract this ugly code to helper method
+        $config = isset($config['zf1']['resources'])
+            ? array_change_key_case($config['zf1']['resources'])
             : array();
+        $config = isset($config['frontcontroller']) ? $config['frontcontroller'] : array();
 
         $front = Zend_Controller_Front::getInstance();
         foreach ($config as $key => $value) {
