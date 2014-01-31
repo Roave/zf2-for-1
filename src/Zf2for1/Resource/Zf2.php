@@ -84,4 +84,12 @@ class Zf2for1_Resource_Zf2
     {
         return $this->app->getServiceManager();
     }
+
+    /**
+     * @return Application
+     */
+    public function getApplication()
+    {
+        return $this->app;
+    }
 }
