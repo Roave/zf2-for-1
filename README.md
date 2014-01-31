@@ -4,56 +4,90 @@ Version 0.0.1 Created by [Evan Coury](http://blog.evan.pro/) and [Xerkus](https:
 
 ## Introduction
 
-ZF 2-for-1 provides a compatibility layer for Zend Framework 1, allowing you to
-use Zend Framework 2 features in your ZF1 application. For example, if you want
-to upgrade from the old Zend\_From to ZF2's Zend\\Form, but can't afford to
-refactor your entire application for ZF2, **this is for you**. This works by
-registering a Zend\_Application resource, thus it requires Zend Framework 1.8 or
-later. At the moment it's only been tested with 1.12.1.
+Original intention of ZF2-for-1 was to provide a compatibility layer for
+Zend Framework 1, allowing to use Zend Framework 2 features in ZF1 application.
+ZF2-for-1 provides some basic functionality for such integration indeed,
+but we believe that migrating to ZF2 is a way to go.
 
-Enjoy responsibly.
+In fact it proved to be quite easy to move (M)VC layer of ZF1 application to
+ZF2. And much easier than to run both applications in parallel.  
+It is explained by the fact that ZF2 is **very** flexible while ZF1... well,
+not.  
+This opens possibility for fast straightforward migration, while keeping
+most of the application code intact, and for gradual refactoring towards modern
+zf2 application afterwards.
 
-## Current features
+To outline said above: current goal of Zf2-for-1 is to reimplement some of the
+ZF1 features in ZF2 to make initial migration fast and easy.
+
+## Current Features
+
+### Basic features for zf1 application
 
 * Registers the ZF2 autoloader
 * Bootstraps ZF2 configuration and modules
-* Makes available the ZF2 view helpers in the ZF1 view layer (`$this->zf2Helper('formRow')`
+* Makes ZF2 ServiceManager available to zf1 application
+* Makes ZF1 application config and bootstrap object available to ServiceManager
+* Optionally registers ServiceManager in `Zend_Registry`
+* Provides access to ZF2 view helpers in the ZF1 view layer (`$this->zf2Helper('formRow')`
 or `$this->zf2Helper()->formRow()`)
+
+### Features for initial migration to ZF2
+
+* Helper class to mimic zf1 request parameters fallback: route -> get -> post
+* Set of classes to mimic ContextSwitch behavior
+* More coming
 
 ## Installation
 
-This process should be simplified, but for now here's how you can get it working:
+### Composer install:
 
-* Clone this repository.
-* Copy the `src/Zf2for1` directory into your application's `library/` directory.
-* Copy the `zf2/` directory into your application's APPLICATION\_PATH (usually `./application/`).
-* Download ZF2 and put the `Zend/` directory in `APPLICATION_PATH/zf2/vendor`
+* Add to you composer.json
+```
+"require": {
+    "roave/zf2-for-1": "dev-master"
+}
+```
 
-Add this to your `application.config.php`:
-
+* Run composer install
+* Add this to your `application.config.php`:
 ```ini
-autoloaderNamespaces[]           = "Zf2for1_"
-autoloaderNamespaces[]           = "Zf2for1\\"
-pluginPaths.Zf2for1_Resource     = "Zf2for1/Resource"
-resources.zf2.zf2Path            = APPLICATION_PATH "/zf2/vendor"
-resources.zf2.configPath         = APPLICATION_PATH "/zf2/config"
+pluginpaths.Zf2for1_Resource     = APPLICATION_PATH "/../vendor/roave/zf2-for-1/src/Zf2for1/Resource"
+
+; This is path where Zf2for1 will be looking by default for zf2 application config
+;resources.zf2.config_path = APPLICATION_PATH "/../config/"
+
+;register service manager to Zend_Registry under the key 'service_manager'
 resources.zf2.add_sm_to_registry = true
 resources.view[] =
 ```
 
-You can of course change the paths to your liking.
+Example can be found [here](https://github.com/Xerkus/zf2-for-1-example)
+
+### Alternative install:
+
+* Clone this repository into `APPLICATION_PATH/../vendor/Zf2for1` directory.
+* Download ZF2 and put the `library/Zend` directory in `APPLICATION_PATH/../vendor/ZF2/`
+* Add this to your `application.config.php`:
+```ini
+pluginpaths.Zf2for1_Resource     = APPLICATION_PATH "/../vendor/zf2-for-1/src/Zf2for1/Resource"
+
+resources.zf2.zf2_path = APPLICATION_PATH "/../vendor/ZF2"
+; This is path where Zf2for1 will be looking by default for zf2 application config
+;resources.zf2.config_path = APPLICATION_PATH "/../config/"
+
+;register service manager to Zend_Registry under the key 'service_manager'
+resources.zf2.add_sm_to_registry = true
+resources.view[] =
+```
 
 ## Plans
 
 There are a lot of ways this could be improved.
 
-* Better README / installation instructions and improved installation process (plus compatibility with composer)
-* The view helper implementation should be set up to handle `__invoke()` properly
-* We could attach to the route event and actually dispatch ZF2 if the request isn't for ZF1
-* We could create a ZF1 controller plugin for the service manager, possibly.
-* Whatever else you might think of.
-
-I accept pull requests. :)
+* More features
+* Usage examples
+* Update README
 
 ## License
 
