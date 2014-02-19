@@ -50,7 +50,7 @@ or `$this->zf2Helper()->formRow()`)
 ```
 
 * Run composer install
-* Add this to your `application.config.php`:
+* Add this to `application/configs/application.ini`:
 ```ini
 pluginpaths.Zf2for1_Resource     = APPLICATION_PATH "/../vendor/roave/zf2-for-1/src/Zf2for1/Resource"
 
@@ -68,9 +68,10 @@ Example can be found [here](https://github.com/Xerkus/zf2-for-1-example)
 
 * Clone this repository into `APPLICATION_PATH/../vendor/Zf2for1` directory.
 * Download ZF2 and put the `library/Zend` directory in `APPLICATION_PATH/../vendor/ZF2/`
-* Add this to your `application.config.php`:
+(Resulting path should be vendor/ZF2/Zend)
+* Add this to `application/configs/application.ini`:
 ```ini
-pluginpaths.Zf2for1_Resource     = APPLICATION_PATH "/../vendor/zf2-for-1/src/Zf2for1/Resource"
+pluginpaths.Zf2for1_Resource     = APPLICATION_PATH "/../vendor/Zf2for1/src/Zf2for1/Resource"
 
 resources.zf2.zf2_path = APPLICATION_PATH "/../vendor/ZF2"
 ; This is path where Zf2for1 will be looking by default for zf2 application config
