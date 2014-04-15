@@ -78,6 +78,18 @@ class Zf2Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $front = $this->getResource('frontcontroller');
         $front->setParam('bootstrap', $this);
-        return $this->getResource('zf2')->getApplication()->run();
+        $application = $this->getResource('zf2')->getApplication();
+        $config = $application->getServiceManager()->get('Config');
+
+        if ($config['zf2_for_1']['silent_zf1_fallback'] === true) {
+            $application->getEventManager()->attach('zf1', array($this, 'parentRun'));
+        }
+
+        return $application->run();
+    }
+
+    public function parentRun($event)
+    {
+        return parent::run();
     }
 }
