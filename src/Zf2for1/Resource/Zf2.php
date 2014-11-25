@@ -28,10 +28,16 @@ class Zf2for1_Resource_Zf2
         //whole zf1 application config
         $zf1Config = $this->getBootstrap()->getApplication()->getOptions();
 
+        // get zf2 application config
+        $appConfig = require $configPath . '/application.config.php';
+
+        // Load application config overrides from apigility style development.config.php
+        if (file_exists($configPath . '/development.config.php')) {
+            $appConfig = ArrayUtils::merge($appConfig, require $configPath . '/development.config.php');
+        }
+
         $appConfig = ArrayUtils::merge(
-            // get zf2 application config
-            require $configPath . '/application.config.php',
-            //register zf1 config with service manager
+            $appConfig,
             array(
                 'modules' => array(
                     'Zf2for1'
