@@ -33,7 +33,7 @@ class Module implements
 
     public function onDispatchError(MvcEvent $e)
     {
-        if ($e->getError() != Application::ERROR_ROUTER_NO_MATCH) {
+        if (php_sapi_name() == 'cli' || $e->getError() != Application::ERROR_ROUTER_NO_MATCH) {
             return;
         }
 
