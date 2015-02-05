@@ -45,28 +45,30 @@ class Zf2Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $service = $this->resolveResourceToServiceName($name);
         $serviceLocator = $this->getResource('zf2')->getServiceManager();
 
-        // return registered resource or proxy to service locator to allow
+        // get resource from service manager or fallback to zf1 resources for
         // greater backwards compatibility while utilizing service locator
-        return parent::hasResource($name) || $serviceLocator->has($service);
+        return $serviceLocator->has($service) || parent::hasResource($name);
     }
 
     public function getResource($name)
     {
-        if (strtolower($name) == 'zf2' || parent::hasResource($name)) {
-            return parent::getResource($name);
+        if (strtolower($name) == 'zf2') {
+            //for zf2 go directly to resource class
+            return parent::getResource('zf2');
         }
 
+        // first try to get resource from service manager
         $service = $this->resolveResourceToServiceName($name);
         $serviceLocator = $this->getResource('zf2')->getServiceManager();
         if ($serviceLocator->has($service)) {
             try {
-                return $serviceLocator->get('service');
+                return $serviceLocator->get($service);
             } catch (\Exception $e) {
                 throw new Zend_Application_Bootstrap_Exception($e->getMessage(), 0, $e);
             }
         }
-
-        return null;
+        // fallback to zf1 resources
+        return parent::getResource($name);
     }
 
     public function resolveResourceToServiceName($resource)
