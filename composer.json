@@ -30,6 +30,9 @@
     "autoload": {
         "psr-0": {
             "Zf2for1": "src/"
-        }
+        },
+        "classmap": [
+            "src/Zf2for1/Resource"
+        ]
     }
 }
