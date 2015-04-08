@@ -80,7 +80,7 @@ class Zf2Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $front = $this->getResource('frontcontroller');
         $front->setParam('bootstrap', $this);
-        $application = $this->getResource('zf2')->getApplication();
+        $application = $this->getResource('zf2');
         $config = $application->getServiceManager()->get('Config');
 
         if ($config['zf2_for_1']['silent_zf1_fallback'] === true) {

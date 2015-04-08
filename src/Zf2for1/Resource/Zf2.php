@@ -9,6 +9,8 @@
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Application;
+use Zend\Mvc\Service;
+use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
 
 class Zf2for1_Resource_Zf2
@@ -45,17 +47,35 @@ class Zf2for1_Resource_Zf2
                 'module_listener_options' => array(
                     'extra_config' => array(
                         'zf1' => $zf1Config,
-                        'service_manager' => array(
-                            'services' => array(
-                                'zf1_bootstrap' => $this->getBootstrap(),
-                            )
-                        )
                     )
                 )
             )
         );
 
-        $this->app = Application::init($appConfig);
+        $configuration = $appConfig;
+
+        //------ copied from Zend\Mvc\Application::init
+        $smConfig = isset($configuration['service_manager']) ? $configuration['service_manager'] : array();
+        $serviceManager = new ServiceManager(new Service\ServiceManagerConfig($smConfig));
+        $serviceManager->setService('ApplicationConfig', $configuration);
+        $serviceManager->get('ModuleManager')->loadModules();
+
+        $listenersFromAppConfig     = isset($configuration['listeners']) ? $configuration['listeners'] : array();
+        $config                     = $serviceManager->get('Config');
+        $listenersFromConfigService = isset($config['listeners']) ? $config['listeners'] : array();
+
+        $listeners = array_unique(array_merge($listenersFromConfigService, $listenersFromAppConfig));
+
+        // Changed. Do not bootstrap yet
+        $application = $serviceManager->get('Application');
+        //END------ copied from Zend\Mvc\Application::init
+
+        //register zf1 bootstrap in ServiceManager
+        $zf1Bootstrap = $this->getBootstrap();
+        $serviceManager = $application->getServiceManager();
+        $serviceManager->setService('zf1_bootstrap', $zf1Bootstrap);
+
+        // register service manager in zf1 registry
         if (
             isset($options['add_sm_to_registry'])
             && $options['add_sm_to_registry'] == true
@@ -64,7 +84,22 @@ class Zf2for1_Resource_Zf2
             $registry = Zend_Registry::getInstance();
             $registry->set('service_manager', $serviceManager);
         }
-        return $this;
+
+        // trick zf1 bootstrap into thinking Zf2For1\Resource\Zf2 has
+        // finished bootstrapping to prevent circular dependency errors
+        $zf1Bootstrap->getContainer()->zf2 = $application;
+        $reflectionClass = new \ReflectionClass($zf1Bootstrap);
+        $reflectionMethod = $reflectionClass->getMethod('_markRun');
+        $reflectionMethod->setAccessible(true);
+        $reflectionMethod->invoke($zf1Bootstrap, 'zf2');
+
+        // bootstrap remainder of zf1
+        $zf1Bootstrap->bootstrap();
+
+        // now bootstrap zf2
+        $application->bootstrap($listeners);
+
+        return $application;
     }
 
     protected function registerZf2Autoloader()
@@ -84,18 +119,5 @@ class Zf2for1_Resource_Zf2
                 'autoregister_zf' => true
             )
         ));
-    }
-
-    public function getServiceManager()
-    {
-        return $this->app->getServiceManager();
-    }
-
-    /**
-     * @return Application
-     */
-    public function getApplication()
-    {
-        return $this->app;
     }
 }
