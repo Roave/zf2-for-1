@@ -9,6 +9,7 @@
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Application;
+use Zend\Mvc\MvcEvent;
 use Zend\Mvc\Service;
 use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\ArrayUtils;
@@ -76,14 +77,8 @@ class Zf2for1_Resource_Zf2
         $serviceManager->setService('zf1_bootstrap', $zf1Bootstrap);
 
         // register service manager in zf1 registry
-        if (
-            isset($options['add_sm_to_registry'])
-            && $options['add_sm_to_registry'] == true
-        ) {
-            $serviceManager = $this->getServiceManager();
-            $registry = Zend_Registry::getInstance();
-            $registry->set('service_manager', $serviceManager);
-        }
+        $registry = Zend_Registry::getInstance();
+        $registry->set('service_manager', $serviceManager);
 
         // trick zf1 bootstrap into thinking Zf2For1\Resource\Zf2 has
         // finished bootstrapping to prevent circular dependency errors
@@ -93,13 +88,19 @@ class Zf2for1_Resource_Zf2
         $reflectionMethod->setAccessible(true);
         $reflectionMethod->invoke($zf1Bootstrap, 'zf2');
 
-        // bootstrap remainder of zf1
-        $zf1Bootstrap->bootstrap();
+        // bootstrap zf1 after zf2 MVC is configured but before modules are bootstrapped
+        $application->getEventManager()
+            ->attach(MvcEvent::EVENT_BOOTSTRAP, array($this, 'onBootstrap'), 9900);
 
         // now bootstrap zf2
         $application->bootstrap($listeners);
 
         return $application;
+    }
+
+    public function onBootstrap()
+    {
+        $this->getBootstrap()->bootstrap();
     }
 
     protected function registerZf2Autoloader()
