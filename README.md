@@ -28,15 +28,11 @@ ZF1 features in ZF2 to make initial migration fast and easy.
 * Bootstraps ZF2 configuration and modules
 * Makes ZF2 ServiceManager available to zf1 application
 * Makes ZF1 application config and bootstrap object available to ServiceManager
-* Optionally registers ServiceManager in `Zend_Registry`
-* Provides access to ZF2 view helpers in the ZF1 view layer (`$this->zf2Helper('formRow')`
-or `$this->zf2Helper()->formRow()`)
+* Registers ServiceManager in `Zend_Registry` under `'service_manager'` key
 
 ### Features for initial migration to ZF2
 
 * Helper class to mimic zf1 request parameters fallback: route -> get -> post
-* Set of classes to mimic ContextSwitch behavior
-* More coming
 
 ## Installation
 
@@ -76,10 +72,6 @@ pluginpaths.Zf2for1_Resource     = APPLICATION_PATH "/../vendor/Zf2for1/src/Zf2f
 resources.zf2.zf2_path = APPLICATION_PATH "/../vendor/ZF2"
 ; This is path where Zf2for1 will be looking by default for zf2 application config
 ;resources.zf2.config_path = APPLICATION_PATH "/../config/"
-
-;register service manager to Zend_Registry under the key 'service_manager'
-resources.zf2.add_sm_to_registry = true
-resources.view[] =
 ```
 
 ## Plans
