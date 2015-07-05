@@ -9,12 +9,13 @@
 
 namespace Zf2for1;
 
+use Zend\Console\Console;
+use Zend\EventManager\EventInterface;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
-use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
-use Zend\EventManager\EventInterface;
 
 class Module implements
     AutoloaderProviderInterface,
@@ -33,7 +34,7 @@ class Module implements
 
     public function onDispatchError(MvcEvent $e)
     {
-        if ($e->getError() != Application::ERROR_ROUTER_NO_MATCH) {
+        if (Console::isConsole() || $e->getError() != Application::ERROR_ROUTER_NO_MATCH) {
             return;
         }
 
